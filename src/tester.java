@@ -30,7 +30,6 @@ public class tester {
 		myTree.insert(13,"String of 13");
 		myTree.insert(21,"String of 21");
 		myTree.insert(30,"String of 30");
-		myTree.insert(2,"String of 2");
 		myTree.insert(4,"String of 4");
 		myTree.insert(10,"String of 10");
 		myTree.insert(15,"String of 15");
@@ -38,5 +37,8 @@ public class tester {
 		myTree.insert(24,"String of 24");
 		myTree.insert(28,"String of 28");
 		myTree.insert(33,"String of 33");
+		myTree.print(myTree.root, 0);
+		System.out.println("-----------");
+
 	}
 }
