@@ -38,7 +38,8 @@ public class tester {
 		myTree.insert(28,"String of 28");
 		myTree.insert(33,"String of 33");
 		myTree.print(myTree.root, 0);
-		System.out.println("-----------");
+		System.out.println("-----------");	
+		AVLTree.IAVLNode a = myTree.getRoot();
 
 	}
 }

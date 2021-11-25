@@ -152,8 +152,16 @@ public class AVLTree {
 	 * Returns the info of the item with the smallest key in the tree, or null if
 	 * the tree is empty.
 	 */
-	public String min() {
-		return "minDefaultString"; // to be replaced by student code
+	public String min() { // complexity O(log(n))
+		
+		if (this.empty()) {
+			return null;
+		}
+		if (this.root.getLeft().getHeight() == -1) {
+			return this.root.getValue();
+		}
+		AVLTree LeftTree = new AVLTree((AVLTree.AVLNode) this.root.getLeft()); // Left sub-tree
+		return LeftTree.min(); // to be replaced by student code
 	}
 
 	/**
@@ -162,8 +170,15 @@ public class AVLTree {
 	 * Returns the info of the item with the largest key in the tree, or null if the
 	 * tree is empty.
 	 */
-	public String max() {
-		return "maxDefaultString"; // to be replaced by student code
+	public String max() { // complexity O(log(n))
+		if (this.empty()) {
+			return null;
+		}
+		if (this.root.getRight().getHeight() == -1) {
+			return this.root.getValue();
+		}
+		AVLTree rightTree = new AVLTree((AVLTree.AVLNode) this.root.getRight()); // right sub-tree
+		return rightTree.max(); // to be replaced by student code
 	}
 
 	/**
@@ -192,6 +207,7 @@ public class AVLTree {
 	 * Returns the number of nodes in the tree.
 	 */
 	public int size() {
+		
 		return 422; // to be replaced by student code
 	}
 
@@ -209,7 +225,10 @@ public class AVLTree {
 	 * Returns the root AVL node, or null if the tree is empty
 	 */
 	public IAVLNode getRoot() {
-		return null;
+		if (this.empty()) {
+			return null;
+		}
+		return this.root;
 	}
 
 	/**
@@ -330,7 +349,7 @@ public class AVLTree {
 			return this.parent; // to be replaced by student code
 		}
 
-		public boolean isRealNode() {
+		public boolean isRealNode() {///////////////////////////////////////////////////////////////?
 			if (this.rank != -1) {
 				this.right = new AVLNode();
 				this.right.parent = this;
@@ -355,12 +374,12 @@ public class AVLTree {
 		public int heightCheck() { // what error case
 			int cnt = 0;
 			int rankCurr = this.rank;
-
-			if (((this.getBF() == 1) || (this.getBF() == -1)) && (this.parent != null)) { // rank difference 0,1 --->
+			int BF = this.getBF();
+			if (((BF == 1) || (BF == -1)) && (this.parent != null)) { // rank difference 0,1 --->
 																							// promote parent
 				this.parent.setHeight(rankCurr + 1);
 				cnt += this.parent.heightCheck();
-			} else if (this.getBF() == 2) { // left imbalance
+			} else if (BF == 2) { // left imbalance
 				if (/*(this.right.rank == -1) || */(this.left.getBF() == -1)) { // left then right rotation
 					cnt += 2;
 					rotateLeft(this.left.right);
@@ -370,7 +389,7 @@ public class AVLTree {
 					rotateRight(this.left);
 
 				}
-			} else if (this.getBF() == -2) { // right imbalance
+			} else if (BF == -2) { // right imbalance
 				if (/*(this.getLeft().getHeight() == -1) ||*/ (this.left.getBF() == 1)) {// right then left rotation
 					cnt += 2;
 					rotateRight(this.right.left);
