@@ -324,10 +324,10 @@ public class AVLTree {
 	 */
 	
 	//AUXILIARY function
-	IAVLNode x = new AVLNode(25,"joiner");////////for testing
+	/*IAVLNode x = new AVLNode(25,"joiner");////////for testing
 	public void printerJoin(AVLTree otherTree) {
 		this.join(x, otherTree);
-	}
+	}*/
 
 	public int join(IAVLNode x, AVLTree t) {
 		if (this.empty() && t.empty()) { //both trees are empty

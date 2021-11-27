@@ -3,6 +3,8 @@ import java.util.Arrays;
 
 
 
+
+
 public class tester {
 	
 	public static void main(String[] args) {
@@ -63,9 +65,9 @@ public class tester {
 		myTree.print(myTree.root, 0);
 		System.out.println("-----------");
 		
-		/*AVLTree otherTree = new AVLTree();
+		AVLTree otherTree = new AVLTree();
 		otherTree.insert(33,"String of 33");
-		otherTree.insert(51,"String of 51");
+		/*otherTree.insert(51,"String of 51");
 		otherTree.insert(42,"String of 42");
 		otherTree.insert(29,"String of 29");
 		otherTree.insert(49,"String of 49");
@@ -85,11 +87,13 @@ public class tester {
 		otherTree2.insert(210,"String of 210");
 		otherTree2.insert(190,"String of 190");
 		otherTree2.insert(220,"String of 220");
-		myTree.printerJoin(otherTree2);
+		//myTree.printerJoin(otherTree2);
 		
 		//attempt 1
-		IAVLNode x = new AVLNode(25,"joiner");
-		myTree.join(x, otherTree2);
+		
+		
+		myTree.join(otherTree.root, otherTree2);
+		myTree.print(myTree.root, 0);
 		
 		
 		/*/attempt 2
