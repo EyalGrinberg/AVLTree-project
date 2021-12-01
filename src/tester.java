@@ -1,4 +1,9 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Random;
+
+
+
 
 
 
@@ -7,102 +12,133 @@ import java.util.Arrays;
 
 public class tester {
 	
+	
+
+	
 	public static void main(String[] args) {
-		AVLTree myTree = new AVLTree();
-		/*myTree.insert(35,"String of 35");
-		myTree.insert(9,"String of 9");
-		myTree.insert(26,"String of 26");
-		myTree.insert(6,"String of 6");
-		myTree.insert(13,"String of 13");
-		myTree.insert(21,"String of 21");
-		myTree.insert(30,"String of 30");
-		myTree.insert(4,"String of 4");
-		myTree.insert(10,"String of 10");
-		myTree.insert(15,"String of 15");
-		myTree.insert(19,"String of 19");
-		myTree.insert(24,"String of 24");
-		myTree.insert(28,"String of 28");
-		myTree.insert(33,"String of 33");
-		myTree.print(myTree.root, 0);
-		System.out.println(Arrays.toString(myTree.keysToArray()));
-		System.out.println(Arrays.toString(myTree.infoToArray()));
-		System.out.println("-----------");	
-		myTree.delete(30);
-		myTree.print(myTree.root, 0);
-		System.out.println(Arrays.toString(myTree.keysToArray()));
-		System.out.println(Arrays.toString(myTree.infoToArray()));
-		System.out.println("-----------");*/
-		
-		myTree.insert(2,"String of 2");
-		myTree.insert(5,"String of 5");
-		myTree.insert(23,"String of 23");
-		myTree.insert(14,"String of 14");
-		myTree.insert(17,"String of 17");
-		myTree.insert(12,"String of 12");
-		myTree.insert(8,"String of 8");
-		myTree.insert(21,"String of 21");
-		myTree.insert(3,"String of 3");
-		myTree.insert(18,"String of 18");
-		myTree.insert(7,"String of 7");
-		myTree.insert(19,"String of 19");
-		myTree.insert(11,"String of 11");
-		myTree.insert(10,"String of 10");
-		myTree.insert(6,"String of 6");
-		myTree.insert(50,"String of 50");
-		myTree.insert(55,"String of 55");
-		myTree.insert(70,"String of 70");
-		myTree.insert(60,"String of 60");
-		myTree.insert(80,"String of 80");
-		myTree.insert(90,"String of 90");
-		myTree.insert(95,"String of 95");
-		myTree.insert(100,"String of 100");
-		myTree.insert(110,"String of 110");
-		myTree.insert(120,"String of 120");
-		myTree.insert(130,"String of 130");
-		myTree.insert(115,"String of 115");
-		myTree.insert(135,"String of 135");
-		myTree.insert(125,"String of 125");
-		myTree.print(myTree.root, 0);
-		System.out.println("-----------");
-		
-		AVLTree otherTree = new AVLTree();
-		otherTree.insert(33,"String of 33");
-		/*otherTree.insert(51,"String of 51");
-		otherTree.insert(42,"String of 42");
-		otherTree.insert(29,"String of 29");
-		otherTree.insert(49,"String of 49");
-		otherTree.insert(34,"String of 34");
-		otherTree.insert(56,"String of 56");
-		otherTree.insert(32,"String of 32");
-		otherTree.insert(38,"String of 38");
-		otherTree.insert(44,"String of 44");
-		otherTree.insert(41,"String of 41");
-		otherTree.insert(39,"String of 39");
-		otherTree.print(otherTree.root, 0);
-		System.out.println("-----------");	
-		//myTree.printerJoin(otherTree);*/
-		
-		AVLTree otherTree2 = new AVLTree();
-		otherTree2.insert(200,"String of 200");
-		otherTree2.insert(210,"String of 210");
-		otherTree2.insert(190,"String of 190");
-		otherTree2.insert(220,"String of 220");
-		//myTree.printerJoin(otherTree2);
-		
-		//attempt 1
+		Random treeSize = new Random();
+		int treeSize1 = treeSize.nextInt(100); //size of first tree
+		int treeSize2 = treeSize.nextInt(100); //size of second tree
+		AVLTree tree1 = new AVLTree();
+		AVLTree tree2 = new AVLTree();
+		int[] orderOfInsertions1 = new int[treeSize1];
+		int[] orderOfInsertions2 = new int[treeSize2];
+		int [] bank1= new int[1000];
+		int [] bank2= new int[1000];
+		for (int i=0; i<treeSize1; i++) { //create first tree
+			int key = tester.getRandomInt1(treeSize, bank1); //get random number under 500
+			String info = "String of" + key;
+			tree1.insert(key, info);
+			orderOfInsertions1[i] = key; //keep order of insertions for deeper checking if necessary
+		}
+		for (int i=0; i<treeSize2; i++) { //create second tree
+			int key = tester.getRandomInt2(treeSize, bank2); //get random number above 500
+			String info = "String of" + key;
+			tree2.insert(key, info);
+			orderOfInsertions2[i] = key; //keep order of insertions for deeper checking if necessary
+		}
+		int[] toCheckOrder1 = tree1.keysToArray(); //tree one result in order
+		int[] toCheckOrder2 = tree2.keysToArray(); //tree two result in order
+		int n = toCheckOrder1.length;
+		int m = toCheckOrder2.length;
+		for (int i=0; i<n; i++) {
+			if ((i!=n-1)&&(toCheckOrder1[i]>toCheckOrder1[i+1])) { // let me know who is not in order
+				System.out.println("node" + i + "not in order");
+			}
+		}
+		System.out.println("---------------Tree1--------------");
+		System.out.println("Tree1 order of insertions");
+		System.out.println(Arrays.toString(orderOfInsertions1)); //insertion order originally
+		System.out.println("Tree1 inserted:");
+		System.out.println(Arrays.toString(toCheckOrder1)); //tree one in order
+		if (orderOfInsertions1.length!=toCheckOrder1.length) { // if not the same length - some wasn't inserted  - error
+			System.out.println((orderOfInsertions1.length - toCheckOrder1.length) + " Missing nodes weren't inserted" );
+			}
+		if (!tree1.empty()) {
+			tree1.print(tree1.root, 0); //checking for imbalance or disconnections
+		}
+		System.out.println("Tree1 checked for order, connections and BF");
 		
 		
-		myTree.join(otherTree.root, otherTree2);
-		myTree.print(myTree.root, 0);
+		
+		for (int i=0; i<m; i++) { // let me know who is not in order
+			if ((i!=m-1)&&(toCheckOrder2[i]>toCheckOrder2[i+1])) {
+				System.out.println("node" + i + "not in order");
+			}
+		}
+		System.out.println("---------------Tree2--------------");
+		System.out.println("Tree2 order of insertions");
+		System.out.println(Arrays.toString(orderOfInsertions2)); //insertion order originally
+		System.out.println("Tree2 inserted:");
+		System.out.println(Arrays.toString(toCheckOrder2)); //tree two in order
+		if (orderOfInsertions2.length!=toCheckOrder2.length) { // if not the same length - some wasn't inserted  - error
+			System.out.println((orderOfInsertions2.length - toCheckOrder2.length) +" Missing node wasn't inserted");
+			}
+		if (!tree2.empty()) {
+			tree2.print(tree2.root, 0); //checking for imbalance or disconnections
+		}
+		System.out.println("Tree2 checked for order, connections and BF");
+		
+		int joinKey =  500;
+		AVLTree jointRoot = new AVLTree();
+		jointRoot.insert(joinKey, "String of" + joinKey);
+		tree1.join(jointRoot.root, tree2); //join the trees with 500
+		System.out.println("---------------JointTree--------------");
+		tree1.print(tree1.root, 0); //check new tree for imbalance or disconnections
+		int[] jointOrder = tree1.keysToArray();
+		System.out.println(Arrays.toString(jointOrder)); // new tree in order
+		int l = jointOrder.length;
+		for (int i=0; i<l; i++) {
+			if ((i!=l-1)&&(jointOrder[i]>jointOrder[i+1])) { // who is not in order
+				System.out.println("nodes" + "index " + (i) + " " + jointOrder[i] + "index " + (i+1) + " " + jointOrder[i] + " not in order");
+			}
+		}
+		if (jointOrder.length!=((toCheckOrder2.length)+(toCheckOrder1.length)+1)) { //are we missing nodes?
+			System.out.println(jointOrder.length - ((toCheckOrder2.length)+(toCheckOrder1.length)) +" Missing node weren't inserted");
+			}
+		System.out.println("jointTree checked for order, connections and BF");
 		
 		
-		/*/attempt 2
-		IAVLNode y = IAVLNode(26,"joiner2");
-		myTree.join(y, otherTree);
+		System.out.println("---------------After Deletions--------------");
+		int z = tree1.size;
+		System.out.println("Original Size was " + z);
+		tree1.delete(jointOrder[z-2]);
+		tree1.delete(jointOrder[(z/2)]);
+		tree1.delete(jointOrder[z/4]);
+		tree1.delete(jointOrder[z-8]);
+		tree1.delete(jointOrder[1]);
+		z = tree1.size;
+		System.out.println("After 5 deletions size is " + z);
+		tree1.print(tree1.root, 0); //check new tree for imbalance or disconnections
+		int[] jointAfterDeletions = tree1.keysToArray();
+		System.out.println(Arrays.toString(jointAfterDeletions)); // new tree in order
+		System.out.println("joint Tree after deletions checked for order, connections and BF");
 		
-		//successful attempt
-		myTree.printerJoin(otherTree);*/
 		
 		
 	}
-}
+	
+	
+	
+	
+	
+	
+	
+	public static int getRandomInt1(Random randomGen, int[] bank) { //only under 500
+		int key = randomGen.nextInt(499);
+		while (bank[key]==1) {
+			key = randomGen.nextInt(499);	
+	}
+		bank[key]=1;
+		return key;
+	}
+	public static int getRandomInt2(Random randomGen, int[] bank) { //only above 500
+		int key = randomGen.nextInt(1000);
+		while ((bank[key]==1)||(key<=500)) {
+			key = randomGen.nextInt(1000);	
+	}
+		bank[key]=1;
+		return key;
+	}	
+	}
+
