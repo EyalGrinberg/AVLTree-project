@@ -19,12 +19,16 @@ public class tester {
 		Random treeSize = new Random();
 		int treeSize1 = treeSize.nextInt(100); //size of first tree
 		int treeSize2 = treeSize.nextInt(100); //size of second tree
+		//int treeSize3 = 30;
 		AVLTree tree1 = new AVLTree();
 		AVLTree tree2 = new AVLTree();
+		//AVLTree tree3 = new AVLTree(); 
 		int[] orderOfInsertions1 = new int[treeSize1];
 		int[] orderOfInsertions2 = new int[treeSize2];
+		//int[] orderOfInsertions3 = new int[treeSize3];
 		int [] bank1= new int[1000];
 		int [] bank2= new int[1000];
+		//int [] bank3= new int[1000];
 		for (int i=0; i<treeSize1; i++) { //create first tree
 			int key = tester.getRandomInt1(treeSize, bank1); //get random number under 500
 			String info = "String of" + key;
@@ -37,8 +41,16 @@ public class tester {
 			tree2.insert(key, info);
 			orderOfInsertions2[i] = key; //keep order of insertions for deeper checking if necessary
 		}
+		//int[] tree3Inserts = {513, 977, 558, 702, 776, 839, 840, 592, 529, 965, 567, 966, 774, 617, 825, 952, 768, 879, 540, 859, 808, 703, 714, 589, 566, 853, 829, 883, 555, 743};
+		/*for (int i=0; i<treeSize3; i++) { //create second tree
+			int key = tree3Inserts[i];//tester.getRandomInt2(treeSize, bank3); //get random number above 500
+			String info = "String of" + tree3Inserts[i];
+			tree3.insert(key, info);
+			orderOfInsertions3[i] = key; //keep order of insertions for deeper checking if necessary
+		}*/
 		int[] toCheckOrder1 = tree1.keysToArray(); //tree one result in order
 		int[] toCheckOrder2 = tree2.keysToArray(); //tree two result in order
+		//int[] toCheckOrder3 = tree3.keysToArray(); //tree two result in order
 		int n = toCheckOrder1.length;
 		int m = toCheckOrder2.length;
 		for (int i=0; i<n; i++) {
@@ -82,10 +94,10 @@ public class tester {
 		int joinKey =  500;
 		AVLTree jointRoot = new AVLTree();
 		jointRoot.insert(joinKey, "String of" + joinKey);
-		tree1.join(jointRoot.root, tree2); //join the trees with 500
+		tree2.join(jointRoot.root, tree1); //join the trees with 500
 		System.out.println("---------------JointTree--------------");
-		tree1.print(tree1.root, 0); //check new tree for imbalance or disconnections
-		int[] jointOrder = tree1.keysToArray();
+		tree2.print(tree2.root, 0); //check new tree for imbalance or disconnections
+		int[] jointOrder = tree2.keysToArray();
 		System.out.println(Arrays.toString(jointOrder)); // new tree in order
 		int l = jointOrder.length;
 		for (int i=0; i<l; i++) {
@@ -100,22 +112,53 @@ public class tester {
 		
 		
 		System.out.println("---------------After Deletions--------------");
-		int z = tree1.size;
+		int z = tree2.size;
 		System.out.println("Original Size was " + z);
-		tree1.delete(jointOrder[z-2]);
-		tree1.delete(jointOrder[(z/2)]);
-		tree1.delete(jointOrder[z/4]);
-		tree1.delete(jointOrder[z-8]);
-		tree1.delete(jointOrder[1]);
-		z = tree1.size;
+		tree2.delete(jointOrder[z-2]);
+		tree2.delete(jointOrder[(z/2)]);
+		tree2.delete(jointOrder[z/4]);
+		tree2.delete(jointOrder[z-8]);
+		tree2.delete(jointOrder[1]);
+		z = tree2.size;
 		System.out.println("After 5 deletions size is " + z);
-		tree1.print(tree1.root, 0); //check new tree for imbalance or disconnections
-		int[] jointAfterDeletions = tree1.keysToArray();
+		tree2.print(tree2.root, 0); //check new tree for imbalance or disconnections
+		int[] jointAfterDeletions = tree2.keysToArray();
 		System.out.println(Arrays.toString(jointAfterDeletions)); // new tree in order
 		System.out.println("joint Tree after deletions checked for order, connections and BF");
 		
 		
 		
+		/*System.out.println("---------------Tree3--------------");
+		System.out.println("Tree3 order of insertions");
+		System.out.println(Arrays.toString(orderOfInsertions3)); //insertion order originally
+		System.out.println("Tree3 inserted:");
+		System.out.println(Arrays.toString(toCheckOrder3)); //tree two in order
+		if (orderOfInsertions3.length!=toCheckOrder3.length) { // if not the same length - some wasn't inserted  - error
+			System.out.println((orderOfInsertions3.length - toCheckOrder3.length) +" Missing node wasn't inserted");
+			}
+		if (!tree3.empty()) {
+			tree3.print(tree3.root, 0); //checking for imbalance or disconnections
+		}
+		System.out.println("Tree3 checked for order, connections and BF");*/
+		
+		System.out.println("---------------After split--------------");
+		System.out.println("splitting by " + jointAfterDeletions[12]);//+ tree2.root.getRight().getLeft().getLeft().getKey());
+		AVLTree[] afterSplit = tree2.split(jointAfterDeletions[12]);//tree2.root.getRight().getKey());
+		System.out.println("---------------Big Tree--------------");
+		afterSplit[0].print(afterSplit[0].root, 0); //check big tree for imbalance or disconnections
+		int[] bigTreeAfterSplit = afterSplit[0].keysToArray();
+		System.out.println(Arrays.toString(bigTreeAfterSplit)); // new tree in order
+		System.out.println("---------------Small Tree--------------");
+		afterSplit[1].print(afterSplit[1].root, 0); //check  small tree for imbalance or disconnections
+		int[] smallTreeAfterSplit = afterSplit[1].keysToArray();
+		System.out.println(Arrays.toString(smallTreeAfterSplit)); // new tree in order
+		int smallT = smallTreeAfterSplit.length;
+		int bigT = bigTreeAfterSplit.length;
+		int missed = jointAfterDeletions.length - smallT - bigT - 1;
+		if (missed!=0) {
+			System.out.println("Missing " + missed + " nodes");
+		}
+		System.out.println("split Trees after deletions checked for order, connections and BF");
 	}
 	
 	
