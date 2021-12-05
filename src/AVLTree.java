@@ -53,7 +53,7 @@ public class AVLTree {
 			searchNodePointer = this.root; //point here for future functions
 			return this.root.info;
 		}
-		if (this.root.getKey() > k) { // go right
+		if (this.root.getKey() > k) { // go left
 			if (this.root.getLeft().getHeight() == -1) {
 				searchNodePointer = this.root;
 				return null;
@@ -62,7 +62,7 @@ public class AVLTree {
 			String result = LeftTree.search(k);
 			this.searchNodePointer = LeftTree.searchNodePointer; // update end of tree to enable future insertion
 			return result;
-		} else { // go left
+		} else { // go right
 			if (this.root.getRight().getHeight() == -1) {
 				searchNodePointer = this.root;
 				return null;
@@ -83,7 +83,7 @@ public class AVLTree {
 	 * promotion/rotation counts as one re-balance operation, double-rotation is
 	 * counted as 2. Returns -1 if an item with key k already exists in the tree.
 	 */
-	public int insert(int k, String i) {
+	public int insert(int k, String i) { // complexity O(log(n))
 		if (this.empty()) { // first insertion
 			this.root = new AVLNode(k, i);
 			this.root.setHeight(0);
@@ -145,7 +145,7 @@ public class AVLTree {
 	 * promotion/rotation counts as one re-balance operation, double-rotation is
 	 * counted as 2. Returns -1 if an item with key k was not found in the tree.
 	 */
-	public int delete(int k) {
+	public int delete(int k) { // complexity O(log(n))
 		int cnt = 0;
 		String searchResult = this.search(k); //set pointer on relevant node
 		if (searchResult == null) { // doesn't exist
@@ -309,7 +309,7 @@ public class AVLTree {
 	 *
 	 * Returns the number of nodes in the tree.
 	 */
-	public int size() {
+	public int size() { // complexity O(1)
 		return this.size; 
 	}
 
@@ -349,7 +349,7 @@ public class AVLTree {
 	 *
 	 * Returns the root AVL node, or null if the tree is empty
 	 */
-	public IAVLNode getRoot() {
+	public IAVLNode getRoot() { // complexity O(1)
 		if (this.empty()) {
 			return null;
 		}
@@ -365,7 +365,7 @@ public class AVLTree {
 	 * precondition: search(x) != null (i.e. you can also assume that the tree is
 	 * not empty) postcondition: none
 	 */
-	public AVLTree[] split(int x) {
+	public AVLTree[] split(int x) { // complexity O(log(n))
 		AVLTree bigTree = new AVLTree();
 		AVLTree smallTree = new AVLTree();
 		AVLTree[] result = { bigTree, smallTree };
@@ -426,7 +426,7 @@ public class AVLTree {
 	 * empty (rank = -1). postcondition: none
 	 */
 
-	public int join(IAVLNode x, AVLTree t) {
+	public int join(IAVLNode x, AVLTree t) { // complexity O(log(n))
 		if (this.empty() && t.empty()) { // both trees are empty
 			this.insert(x.getKey(), x.getValue());
 			return 0;
@@ -647,7 +647,7 @@ public class AVLTree {
 			return this.rank; // to be replaced by student code
 		}
 
-		public int heightCheckInsert() { // what error case
+		public int heightCheckInsert() { // complexity O(1) what error case
 			int cnt = 0;
 			int BF = this.getBF();
 			if (((BF == 1) || (BF == -1)) && (this.parent != null)) { // rank difference 0,1 --->// promote parent
@@ -682,7 +682,7 @@ public class AVLTree {
 			return cnt;
 		}
 
-		public int heightCheckDelete() {
+		public int heightCheckDelete() { // complexity O(1)
 			int cnt = 0;
 			//int rankCurr = this.rank;
 			int BF = this.getBF();
@@ -717,14 +717,14 @@ public class AVLTree {
 			}
 		}
 
-		private int getBF() {
+		private int getBF() { // complexity O(1)
 			if (this.rank == -1) {
 				return -3;
 			}
 			return this.left.rank - this.right.rank;
 		}
 
-		private void rotateRight(AVLNode son) {
+		private void rotateRight(AVLNode son) { //O(1)
 			AVLNode greatGrandpa = son.parent.parent; // save top
 
 			son.parent.left = son.right; // turn left sub-tree into father's right-tree
@@ -749,7 +749,7 @@ public class AVLTree {
 			}
 		}
 
-		private void rotateLeft(AVLNode son) {
+		private void rotateLeft(AVLNode son) { //O(1)
 			AVLNode greatGrandpa = son.parent.parent; // save top
 			son.parent.right = son.left; // turn left sub-tree into father's left-tree
 			son.left.parent = son.parent; // turn former son into grandson
@@ -773,7 +773,7 @@ public class AVLTree {
 
 		}
 
-		private AVLNode getPredecessor() {
+		private AVLNode getPredecessor() { //O(logn) 
 			AVLNode tmp = new AVLNode(this.getKey(), "");
 			tmp.parent = this.parent;
 			tmp.left = this.left;
@@ -791,7 +791,7 @@ public class AVLTree {
 			}
 		}
 
-		private AVLNode getSuccessor() {
+		private AVLNode getSuccessor() { //O(logn) 
 			AVLNode tmp = new AVLNode(this.getKey(), "");
 			tmp.parent = this.parent;
 			tmp.right = this.right;
@@ -817,7 +817,7 @@ public class AVLTree {
 			return tmp;///////adjustments made in this function last
 		}
 
-		private void setSize() {
+		private void setSize() { //O(1)
 			if (this.isRealNode()) {
 				this.sizeNode = this.right.sizeNode + this.left.sizeNode;
 			}
